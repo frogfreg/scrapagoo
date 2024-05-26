@@ -27,7 +27,7 @@ async function getAmazonResults(searchTerm) {
           .querySelector(`[data-cy="price-recipe"]`)
           .querySelector(".a-price-whole");
       })
-      .map((p) => {
+      .map((p, index) => {
         let imageSource = p.querySelector("img").getAttribute("src");
         let title = p
           .querySelector(`[data-cy="title-recipe"]`)
@@ -53,12 +53,14 @@ async function getAmazonResults(searchTerm) {
         }
 
         let actualLink = `https://www.amazon.com.mx` + linkSuffix;
+        let topResult = index < 6 ? true : false;
 
         return {
           imageSource,
           title,
           actualLink,
           price: priceNum,
+          topResult,
         };
       });
   });

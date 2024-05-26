@@ -1,33 +1,24 @@
-import puppeteer from "puppeteer";
+import { getAmazonResults } from "./amazon.js";
+import { getMLResults } from "./mercadoLibre.js";
 
-async function scrap() {
-  const browser = await puppeteer.launch({ headless: false });
-  const page = await browser.newPage();
+let bothResults = await Promise.all([
+  getMLResults("pixel 8 pro"),
+  getAmazonResults("pixel 8 pro"),
+]);
 
-  await page.setViewport({ width: 1080, height: 1024 });
+let combinedResults = [].concat(bothResults[0], bothResults[1]);
 
-  await page.goto("https://www.amazon.com.mx/s?k=pixel+8+pro", {
-    waitUntil: ["networkidle0"],
-  });
+combinedResults.sort((a, b) => {
+  if (a.topResult && b.topResult) {
+    return a.Price - b.Price;
+  }
+  if (a.topResult) {
+    return -1;
+  }
+  if (b.topResult) {
+    return 1;
+  }
+  return a.Price - b.Price;
+});
 
-  let productTitle = await page.evaluate(() => {
-    let products = document.querySelectorAll(
-      `div[data-component-type="s-search-result"]`
-    );
-
-    let productTitle = products[0].querySelector("a > span");
-
-    return productTitle.innerText;
-  });
-
-  console.log(productTitle);
-
-  await await new Promise((resolve) => {
-    setTimeout(resolve, 1000);
-  });
-
-  await page.close();
-  await browser.close();
-}
-
-scrap();
+console.log(JSON.stringify(combinedResults));
