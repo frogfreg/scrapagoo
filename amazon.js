@@ -53,7 +53,7 @@ async function getAmazonResults(searchTerm) {
         }
 
         let actualLink = `https://www.amazon.com.mx` + linkSuffix;
-        let topResult = index < 6 ? true : false;
+        let topResult = index < 8 ? true : false;
 
         return {
           imageSource,

@@ -46,7 +46,7 @@ async function getMLResults(searchTerm) {
         .querySelector("a.ui-search-link__title-card.ui-search-link")
         .getAttribute("href");
 
-      let topResult = index < 6 ? true : false;
+      let topResult = index < 8 ? true : false;
 
       return { imageSource, title, price: priceInt, actualLink, topResult };
     });
