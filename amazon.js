@@ -1,8 +1,8 @@
 import puppeteer from "puppeteer";
 
 async function getAmazonResults(searchTerm) {
-  const browser = await puppeteer.launch({ headless: false });
-  //   const browser = await puppeteer.launch();
+  // const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
   await page.setViewport({ width: 1920, height: 1080 });
